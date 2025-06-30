@@ -1,15 +1,17 @@
 #!/bin/bash
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
 echo "This is a program to rate your system's security measures."
 
-mkdir temp
-touch temp/python
-
-echo "$(python --version)" >> temp/python
 
 rm -rvf temp
 cd Assets
-sudo python script_header.py
+
+python3 "Linux Audit Tool.py"
+
+cd ..
 
 echo "Displaying Report"
 cat Report/Report.txt

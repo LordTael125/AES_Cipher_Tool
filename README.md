@@ -4,33 +4,37 @@ This Git Repository contains two Projects :-
 
 ```
 > AES Cipher Tool
-> Linux Audit Hardening Evaluation System 
+> Linux Audit Hardening Tool 
 ```
+----------
 
-To install and run the batch application on terminal run the following command after cloning the repository
+You Can download the Official GUI Application from release section for both Tools
 
-```
-    $ sudo bash ./firstBoot.sh
-```
+> AES Cipher Tool has both Windows and Linux compatibility
+> Linux Audit Tool also has been officially released
 
-After which to run the program simply follow the simple command on terminal
-```
-    $ ./main.sh
-```
-> main.sh is a batch run program which allows you to choose between two program and use them 
+----------
 
-```
-AES Cipher Tool is accessible for both Linux Users as well as Windows 11 Users
-```
-To Use The AES Cipher Tool Download The Executable Files From packages based on the system and use the executables
+AES Cipher Tool instructions: -
 
-> Note :- 
-> Two Sample Document has been provided in the Assets/Samples folder to test the working of Cipher Tool
+To use AES Cipher tool download the respective package for your system
 
-> If the executable elf file does not start make sure to give execution permission to the file using the command
+> AES Cipher Tool.tar.gz --> for Linux based distribution
+> AES Cipher Tool.exe    --> for Windows 11
 
-```
-    $ sudo chmod +x AES.Cipher.Tool.elf
-```
+----------
 
-Soon Official application will also be provided soon for Linux Audit Tool
+Linux Audit Hardening Tool instruction: -
+
+To use Linux Audit Hardening Tool 
+> Simply download the Linux Audit Tool.tar.gz 
+> Extract and run the application
+
+
+----------
+
+You can also clone the source code for the both tools and run then with their run_script
+
+To run script provide the execution permission to run scripts using chmod
+
+----------
