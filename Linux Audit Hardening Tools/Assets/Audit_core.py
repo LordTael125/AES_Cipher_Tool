@@ -7,15 +7,15 @@ os.makedirs(REPORT_DIR, exist_ok=True)
 REPORT_FILE = os.path.join(REPORT_DIR, "Report.txt")
 
 
-# Relaunch with pkexec if not root
-def relaunch_with_pkexec():
-    if os.geteuid() != 0:
-        try:
-            script_path = os.path.realpath(__file__)
-            subprocess.call(["pkexec", sys.executable,script_path] + sys.argv)
-        except Exception as e:
-            print(f"Failed to elevate privileges: {e}")
-        sys.exit()
+# # Relaunch with pkexec if not root
+# def relaunch_with_pkexec():
+#     if os.geteuid() != 0:
+#         try:
+#             script_path = os.path.realpath(__file__)
+#             subprocess.call(["pkexec", sys.executable,script_path] + sys.argv)
+#         except Exception as e:
+#             print(f"Failed to elevate privileges: {e}")
+#         sys.exit()
 
 
 def report_add(seq):
@@ -29,19 +29,19 @@ def check_firewall():
     try:
         output = subprocess.check_output(['sudo', 'ufw', 'status'], text=True)
         if "Status: active" in output:
-            report_add("[OK] UFW is active.")
+            report_add("[OK] UFW is active.\n")
             print("Firewall check Completed")
             sys.stdout.flush()
             return 1
         else:
-            report_add("[WARN] UFW is inactive.")
+            report_add("[WARN] UFW is inactive.\n")
             print("Firewall check Completed")
             sys.stdout.flush()
             return 0
     except FileNotFoundError:
         try:
             subprocess.check_output(['sudo', 'iptables', '-L'], text=True)
-            report_add("[INFO] iptables found.")
+            report_add("[INFO] iptables found.\n")
             return 0.5
         except:
             report_add("[FAIL] No firewall detected (ufw/iptables).")
@@ -170,9 +170,9 @@ def generate_score(score, max_score):
 def main():
     print(os.getcwd(),"\n\n\n")
 
-    if os.geteuid() != 0:
-        relaunch_with_pkexec()
-        return
+    # if os.geteuid() != 0:
+    #     relaunch_with_pkexec()
+    #     return
 
     with open(REPORT_FILE, "w") as f:
         f.write(f"Linux Hardening Audit Report - {datetime.now()}\n\n")

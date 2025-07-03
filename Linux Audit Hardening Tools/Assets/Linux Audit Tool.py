@@ -37,7 +37,9 @@ class AuditApp(QtWidgets.QMainWindow):
         self.process.readyReadStandardError.connect(self.read_output)
         self.process.finished.connect(self.finish_audit)
 
-        audit_script_path = os.path.abspath(os.path.join("Audit_core.py"))
+        BASE_DIR = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
+        audit_script_path = os.path.join(BASE_DIR, "core", "Audit_core.py")
+        # audit_script_path = os.path.abspath(os.path.join("Audit_core.py"))
         self.process.start("pkexec", ["python3", audit_script_path])
 
     def read_output(self):
