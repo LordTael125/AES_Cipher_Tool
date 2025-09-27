@@ -4,6 +4,11 @@ from PyQt6.QtWidgets import QApplication, QMessageBox
 from PyQt6 import uic, QtWidgets
 from PyQt6.QtCore import QProcess, QTimer
 
+version_state = {
+    "version" : 1.0-1,
+    "Developed by" : "LordTael125"
+}
+
 class AuditApp(QtWidgets.QMainWindow):
     def __init__(self, ui_file):
         super().__init__()

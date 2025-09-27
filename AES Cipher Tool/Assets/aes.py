@@ -6,6 +6,11 @@ from PyQt6.QtWidgets import QFileDialog, QApplication, QMessageBox
 from PyQt6 import QtWidgets, uic ,QtCore, QtGui
 import os, sys, json, struct, pathlib
 
+version_state = {
+    "version" : 1.0-1,
+    "Developed by" : "LordTael125"
+}
+
 def resource_path(relative_path):
     """Get absolute path to resource, compatible with PyInstaller."""
     if hasattr(sys, '_MEIPASS'):
@@ -59,14 +64,16 @@ class UIHandler(QtWidgets.QMainWindow) :
         self.aboutButton.clicked.connect(self.about_dialog)
 
         
-
+        # checkbox state call
         self.CheckSamePath.stateChanged.connect(self.on_checkbox_toggle)
 
+
+        # Action buttons
         self.buttonFileChoose.clicked.connect(self.choose_file)
         self.SavePathButton.clicked.connect(self.choose_path)
         self.donebutton.clicked.connect(QApplication.exit)
 
-        # main encryption/decryption
+        # encryption/decryption action call
         self.encrButton.clicked.connect(self.encryptFile)
         self.decrButton.clicked.connect(self.decryptFile)
         self.saveButton.clicked.connect(self.save_to_file)
@@ -78,7 +85,8 @@ class UIHandler(QtWidgets.QMainWindow) :
         self.aeskey.setValidator(validator)
         self.aesiv.setValidator(validator)
 
-
+    
+    # choosing the file for encryption/decryption
     def choose_file(self):
         options = QFileDialog.Option.DontUseNativeDialog
         self.file_path, _ = QFileDialog.getOpenFileName(self, "Choose File", "", "All Files (*)", options=options)
@@ -89,6 +97,7 @@ class UIHandler(QtWidgets.QMainWindow) :
                 path = os.path.dirname(self.file_path)
                 self.SavePathlnEdit.setText(path)
 
+    # save path
     def choose_path(self):
         
         if self.CheckSamePath.isChecked() and self.file_path:
@@ -99,7 +108,9 @@ class UIHandler(QtWidgets.QMainWindow) :
 
             if self.dir_path :
                 self.SavePathlnEdit.setText(self.dir_path)
+    
 
+    # Dialog boxes
     def show_help_dialog(self):
         QMessageBox.information(
             self,
@@ -110,7 +121,6 @@ class UIHandler(QtWidgets.QMainWindow) :
             "- Use AES-256 encryption\n\n"
             "Tip: Check 'Save in same directory' to avoid browsing."
         )
-
     def about_dialog(self):
         QMessageBox.information(
             self,
@@ -120,10 +130,8 @@ class UIHandler(QtWidgets.QMainWindow) :
             "1) Python - Crypto, PyQt6\n"
             "2) QT6\n\n"
         )
-
     def version_dialog(self):
         QMessageBox.information()
-
     def complete_dialog(self,code):
         proc_box = {
             1001 : ("Encryption Complete","Encryption of the file has been completed\nPress Save to File to export encrypted File"),
@@ -240,7 +248,6 @@ class AEShandler :
         self.key = hashlib.sha256(secret.encode()).digest()
         return self.key
 
-
     def generateIV(self, initVector : str) :
         full_hash = hashlib.sha256(initVector.encode()).digest()
         self.iv = full_hash[:16]
@@ -288,8 +295,9 @@ class FileHandler :
         output_dir = pathlib.Path(self.save_path)
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        output_name = original_path.name + suffix
-        output_path = output_dir / output_name
+        output_name_nsuff = original_path.stem      # removing original extension
+        output_name = output_name_nsuff + suffix    # adding .enc extension
+        output_path = output_dir / output_name      # generating save path
 
         with open(output_path, 'wb') as fb:
             if metadata:
